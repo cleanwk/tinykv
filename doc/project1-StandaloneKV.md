@@ -19,7 +19,7 @@ In addition, `Server` depends on a `Storage`, an interface you need to implement
 
 #### Implement standalone storage engine
 
-The first mission is implementing a wrapper of [badger](https://github.com/dgraph-io/badger) key/value API. The service of gRPC server depends on an `Storage` which is defined in `kv/storage/storage.go`. In this context, the standalone storage engine is just a wrapper of badger key/value API which is provided by two methods:
+**The first mission is implementing a wrapper of [badger](https://github.com/dgraph-io/badger) key/value API. The service of gRPC server depends on an `Storage` which is defined in `kv/storage/storage.go`**. In this context, the standalone storage engine is just a wrapper of badger key/value API which is provided by two methods:
 
 ``` go
 type Storage interface {
@@ -44,4 +44,4 @@ And you don’t need to consider the `kvrpcpb.Context` now, it’s used in the f
 
 #### Implement service handlers
 
-The final step of this project is to use the implemented storage engine to build raw key/value service handlers including RawGet/ RawScan/ RawPut/ RawDelete. The handler is already defined for you, you only need to fill up the implementation in `kv/server/raw_api.go`. Once done, remember to run `make project1` to pass the test suite.
+The final step of this project is to use the implemented storage engine to build raw key/value service handlers including RawGet/ RawScan/ RawPut/ RawDelete. **The handler is already defined for you, you only need to fill up the implementation in `kv/server/raw_api.go`.** Once done, remember to run `make project1` to pass the test suite.

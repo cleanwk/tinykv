@@ -15,23 +15,21 @@ func (server *Server) RawGet(_ context.Context, req *kvrpcpb.RawGetRequest) (*kv
 	response := &kvrpcpb.RawGetResponse{}
 
 	var reader storage.StorageReader
-	defer reader.Close()
 
 	reader, err := server.storage.Reader(req.Context)
 	if err != nil {
 		return nil, err
 	}
+	defer reader.Close()
 
 	value, err := reader.GetCF(req.Cf, req.Key)
-	if err != nil {
-		return nil, err
-	}
+
 	if len(value) == 0 {
 		response.NotFound = true
 	}
 
 	response.Value = value
-	return nil, nil
+	return response, nil
 }
 
 // RawPut puts the target data into storage and returns the corresponding response

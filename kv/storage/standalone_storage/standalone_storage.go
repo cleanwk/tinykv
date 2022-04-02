@@ -42,7 +42,8 @@ func (s *StandAloneStorage) Start() error {
 func (s *StandAloneStorage) Stop() error {
 	// Your Code Here (1).
 	if s.badgerDB != nil {
-		if err := s.badgerDB.Close(); err != nil {
+		err := s.badgerDB.Close()
+		if err != nil {
 			log.Fatalf("close badger failed : %v", err)
 			return err
 		}
@@ -53,6 +54,7 @@ func (s *StandAloneStorage) Stop() error {
 func (s *StandAloneStorage) Reader(ctx *kvrpcpb.Context) (storage.StorageReader, error) {
 	// Your Code Here (1).
 	txn := s.badgerDB.NewTransaction(false)
+
 	reader := NewStandaloneReader(txn)
 	return reader, nil
 

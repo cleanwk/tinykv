@@ -15,13 +15,13 @@ func NewStandaloneReader(txn *badger.Txn) *StandaloneReader {
 	}
 }
 
-//GetCF 返回的事cfWithKey 对应的val
+//GetCF 返回的是cfWithKey 对应的val
 func (s *StandaloneReader) GetCF(cf string, key []byte) ([]byte, error) {
 	val, err := engine_util.GetCFFromTxn(s.txn, cf, key)
-	if err != nil {
-		return nil, err
+	if err == badger.ErrKeyNotFound {
+		err = nil
 	}
-	return val, nil
+	return val, err
 }
 func (s *StandaloneReader) IterCF(cf string) engine_util.DBIterator {
 	return engine_util.NewCFIterator(cf, s.txn)
